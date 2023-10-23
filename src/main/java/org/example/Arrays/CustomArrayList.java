@@ -54,7 +54,7 @@ public class CustomArrayList <T extends Comparable<T>> implements CustomList<T> 
 
     @Override
     public T get(int index) {
-        if (index<0||index> list_size-1){
+        if (index<0||index> list_size){
             throw new IndexOutOfBoundsException("invalid index");
         }
         return (T) array[index];
@@ -102,14 +102,13 @@ public class CustomArrayList <T extends Comparable<T>> implements CustomList<T> 
     }
     private int partition(int begin, int end,Comparator comparator) {
         T pivot = (T) array[end];
-        int i = (begin-1);
+        int i = begin;
 
         for (int j = begin; j < end; j++) {
+            int i1=i;
+            int j2=j;
             int compare = comparator.compare(array[j],pivot);
-            if (compare==0) {
-                continue;
-            }
-            if(compare < 0){
+            if (compare<=0) {
                 i++;
                 T  swapTemp =(T) array[i];
                 array[i] = array[j];
@@ -117,7 +116,7 @@ public class CustomArrayList <T extends Comparable<T>> implements CustomList<T> 
             }
         }
         T  swapTemp =(T) array[i];
-        array[i+1] = array[end];
+        array[i] = array[end];
         array[end] = swapTemp;
 
         return i+1;
