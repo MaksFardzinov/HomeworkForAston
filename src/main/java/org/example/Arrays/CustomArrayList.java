@@ -93,33 +93,31 @@ public class CustomArrayList <T extends Comparable<T>> implements CustomList<T> 
     public void sort(Comparator<? super T> comparator) {
         quicksort(0,list_size-1,comparator);
     }
-    private void quicksort(int begin,int end,Comparator comparator){
+    private void quicksort(int begin,int end,Comparator<? super T> comparator){
         if(begin< end){
             int index = partition(begin,end,comparator);
             quicksort( begin, index-1,comparator);
             quicksort(index+1, end,comparator);
         }
     }
-    private int partition(int begin, int end,Comparator comparator) {
+    private int partition(int begin, int end,Comparator<? super T> comparator) {
         T pivot = (T) array[end];
         int i = begin;
-
         for (int j = begin; j < end; j++) {
-            int i1=i;
-            int j2=j;
-            int compare = comparator.compare(array[j],pivot);
+            int compare = comparator.compare((T)array[j],pivot);
             if (compare<=0) {
-                i++;
+
                 T  swapTemp =(T) array[i];
                 array[i] = array[j];
                 array[j] = swapTemp;
+                i++;
             }
         }
         T  swapTemp =(T) array[i];
         array[i] = array[end];
         array[end] = swapTemp;
 
-        return i+1;
+        return i;
     }
 
     @Override
